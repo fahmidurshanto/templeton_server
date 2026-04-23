@@ -1,0 +1,74 @@
+[
+    {
+        "id": 1,
+        "title": "Hutchinson Ascrow trust fund - London",
+        "status": "PROCESSED",
+        "date": "Past, 01, 2026",
+        "time": "02:56 PM",
+        "icon": "🛡️",
+        "remark": "Initial Funding: £2.5M GBP received. Documentation verified. Funds moved to domestic sterling account.",
+        "remarkLabel": "AML check complete and approved."
+    },
+    {
+        "id": 2,
+        "title": "Fidelity Ascrow Limited - Bristol",
+        "status": "PROCESSED",
+        "date": "Past, 30, 2026",
+        "time": "02:56 PM",
+        "icon": "🏦",
+        "remark": "Currency Conversion: Conversion from GBP to CHF initiated. Hedging contract executed. Funds transfer to Swiss bank confirmed.",
+        "remarkLabel": "Standard conversion rate applied."
+    },
+    {
+        "id": 3,
+        "title": "Ascrow Swiss Limited",
+        "status": "PROCESSED",
+        "date": "Past, 30, 2026",
+        "time": "03:21 PM",
+        "icon": "📦",
+        "remark": "CHF Ingestion: Funds arrived in CHF account. Cross-border conversion. Cross-border fees applied. Funds consolidated.",
+        "remarkLabel": "Swiss-specific reporting form 109 filed."
+    },
+    {
+        "id": 4,
+        "title": "Dominica Republic Ascrow Trust",
+        "status": "PROCESSED",
+        "date": "Past, 01, 2026",
+        "time": "03:21 PM",
+        "icon": "💰",
+        "remark": "Onshore to Offshore Transfer: Funds moved to tax-neutral domicile. Legal structure check completed.",
+        "remarkLabel": "Ascrow agreement amendment #1 applied."
+    },
+    {
+        "id": 5,
+        "title": "Hutchinson (India)",
+        "status": "PROCESSED",
+        "date": "Past, 01, 2026",
+        "time": "02:56 PM",
+        "icon": "⚖️",
+        "remark": "Sub-Project Allocation: Funds allocated for Bangalore tech center expansion. Compliance with Indian FEMA regulations confirmed.",
+        "remarkLabel": "Local director approval received."
+    },
+    {
+        "id": 6,
+        "title": "Ascrow (UAE) Limited",
+        "status": "PROCESSED",
+        "date": "Past, 30, 2026",
+        "time": "02:56 PM",
+        "icon": "🏢",
+        "remark": "Final Allocation: Funds moved to UAE Ascrow for real estate JV project in Dubai. Final stage before BVI consolidation.",
+        "remarkLabel": "UAE Central Bank clearance obtained."
+    },
+    {
+        "id": 7,
+        "title": "BVI Ascrow Limited",
+        "status": "ACTIVE",
+        "label": "LIVE",
+        "date": "MAR 30, 2026",
+        "time": "02:56 PM",
+        "icon": "🏛️",
+        "current": true,
+        "remark": "Current Balance: 2.15M AED. Pending allocation for Dubai real estate JV. Final KYC verification for new partners in progress.",
+        "remarkLabel": "Urgent action needed - Signator update required."
+    }
+]
