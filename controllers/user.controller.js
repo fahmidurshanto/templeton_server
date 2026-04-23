@@ -44,7 +44,7 @@ export const login = catchAsync(async (req, res) => {
 
     if (!isMatch) {
         console.log(`❌ Password mismatch for user: ${user._id}`);
-        throw new AppError('Invalid email or password', 401);
+        throw new AppError('Invalid userId or password', 401);
     }
 
     console.log(`✅ Password verified for user: ${user._id}`);
