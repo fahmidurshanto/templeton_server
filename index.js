@@ -14,6 +14,7 @@ import profileRoutes from './routes/profile.route.js';
 import scheduleRoutes from './routes/schedule.route.js';
 import investmentRoutes from './routes/investment.route.js';
 import stageRoutes from './routes/stage.routes.js';
+import profileUpdateRequestRoutes from './routes/profileUpdateRequest.route.js';
 
 // Load environment variables
 console.log(`📂 Current Working Directory: ${process.cwd()}`);
@@ -53,6 +54,7 @@ app.use('/api/v1/user', profileRoutes);
 app.use('/api/v1/schedule', scheduleRoutes);
 app.use('/api/v1/investment', investmentRoutes);
 app.use("/api/v1/stage", stageRoutes)
+app.use('/api/v1/profile-updates', profileUpdateRequestRoutes);
 
 //errorhandler
 app.use(errorHandler);

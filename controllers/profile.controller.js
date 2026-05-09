@@ -268,7 +268,7 @@ export const removeMembership = catchAsync(async (req, res, next) => {
 
     // Standard filter logic to remove the specific membership
     user.memberships = user.memberships.filter(
-        (m) => m.name.toUpperCase() !== tierName.toUpperCase()
+        (m) => m.name.toLowerCase().replace(/\s+/g, '_') !== tierName.toLowerCase()
     );
 
     if (user.memberships.length === initialLength) {
@@ -320,7 +320,8 @@ export const addUserService = catchAsync(async (req, res, next) => {
 
 // Remove service from a user
 export const removeUserService = catchAsync(async (req, res, next) => {
-    const { userId, serviceName } = req.params;
+    const { userId } = req.params;
+    const { serviceName } = req.body;
 
     const user = await User.findById(userId);
     if (!user) {
@@ -347,5 +348,32 @@ export const removeUserService = catchAsync(async (req, res, next) => {
     });
 });
 
+// Change password for the current user
+export const changePassword = catchAsync(async (req, res, next) => {
+    const { oldPassword, newPassword } = req.body;
 
-
+    if (!oldPassword || !newPassword) {
+        return next(new AppError('Please provide old and new passwords', 400));
+    }
+
+    const user = await User.findById(req.user.id);
+    if (!user) {
+        return next(new AppError('User not found', 404));
+    }
+
+    const isMatch = await user.comparePassword(oldPassword);
+    if (!isMatch) {
+        return next(new AppError('Current password is incorrect', 401));
+    }
+
+    user.password = newPassword;
+    await user.save();
+
+    res.status(200).json({
+        success: true,
+        message: 'Password updated successfully'
+    });
+});
+
+
+
