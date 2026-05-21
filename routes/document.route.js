@@ -5,7 +5,8 @@ import {
     viewDocument,
     deleteDocument,
     upload,
-    getAllDocuments
+    getAllDocuments,
+    updateViewExpiry
 } from '../controllers/document.controller.js';
 import { isAuthenticated, isAdmin } from '../middleware/auth.middleware.js';
 
@@ -16,6 +17,7 @@ router.get('/getall', isAuthenticated, isAdmin, getAllDocuments);
 router.post('/upload', isAuthenticated, upload.single('file'), uploadDocument);
 router.get('/user/:userId', isAuthenticated, getDocumentsByUser);
 router.get('/view/:id', isAuthenticated, viewDocument);
+router.put('/expiry/:id', isAuthenticated, isAdmin, updateViewExpiry);
 router.delete('/delete/:id', isAuthenticated, isAdmin, deleteDocument);
 
 export default router;

@@ -78,9 +78,14 @@ export const viewDocument = catchAsync(async (req, res, next) => {
         return next(new AppError('You do not have permission to view this document', 403));
     }
 
-    // Check if owner has already seen it
-    if (isOwner && !isAdmin && document.hasUserSeen) {
-        return next(new AppError('You cannot see a document more than once', 403));
+    if (isOwner && !isAdmin) {
+        if (document.viewExpiry) {
+            if (new Date() > document.viewExpiry) {
+                return next(new AppError('The view duration for this document has expired', 403));
+            }
+        } else if (document.hasUserSeen) {
+            return next(new AppError('You cannot see a document more than once', 403));
+        }
     }
 
     // Resolve absolute path for res.sendFile
@@ -90,8 +95,8 @@ export const viewDocument = catchAsync(async (req, res, next) => {
         return next(new AppError('File not found on server', 404));
     }
 
-    // If it's the owner viewing for the first time, mark as seen
-    if (isOwner && !isAdmin && !document.hasUserSeen) {
+    // If it's the owner viewing and no viewExpiry is set, mark as seen
+    if (isOwner && !isAdmin && !document.viewExpiry && !document.hasUserSeen) {
         document.hasUserSeen = true;
         await document.save();
     }
@@ -137,10 +142,21 @@ export const getDocumentsByUser = catchAsync(async (req, res, next) => {
         return next(new AppError('You do not have permission to view these documents', 403));
     }
 
-    const documents = await Document.find({ user: userId }).sort({ createdAt: -1 });
+    let documents = await Document.find({ user: userId }).sort({ createdAt: -1 });
+
+    documents = documents.map(doc => {
+        const docObj = doc.toObject();
+        if (docObj.viewExpiry) {
+            docObj.hasExpired = new Date() > new Date(docObj.viewExpiry);
+        } else {
+            docObj.hasExpired = false;
+        }
+        return docObj;
+    });
 
     res.status(200).json({
         success: true,
+        isOwner,
         count: documents.length,
         documents
     });
@@ -160,5 +176,34 @@ export const getAllDocuments = catchAsync(async (req, res, next) => {
         success: true,
         count: documents.length,
         documents
+    });
+});
+
+// Update viewExpiry controller (Admin only)
+export const updateViewExpiry = catchAsync(async (req, res, next) => {
+    const { id } = req.params;
+    const { days } = req.body;
+
+    if (days === undefined || days === null || isNaN(days)) {
+        return next(new AppError('Please provide a valid number of days', 400));
+    }
+
+    const document = await Document.findById(id);
+
+    if (!document) {
+        return next(new AppError('Document not found', 404));
+    }
+
+    // Calculate expiry date: current date + days
+    const expiryDate = new Date();
+    expiryDate.setDate(expiryDate.getDate() + Number(days));
+
+    document.viewExpiry = expiryDate;
+    await document.save();
+
+    res.status(200).json({
+        success: true,
+        message: `View expiry updated to ${Number(days)} days from now`,
+        viewExpiry: document.viewExpiry
     });
 });

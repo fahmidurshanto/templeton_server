@@ -17,6 +17,10 @@ const documentSchema = new mongoose.Schema({
         type: Boolean,
         default: false
     },
+    viewExpiry: {
+        type: Date,
+        default: null
+    },
     size: {
         type: String,
         default: 'N/A'
